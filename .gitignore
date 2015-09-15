@@ -1,0 +1,10 @@
+# edited by Debajyoti Bhaumik
+
+*.o
+
+# app binaries
+sim8085
+tests/test
+
+# dev-tool related swap's
+*.sublime-workspace
