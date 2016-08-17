@@ -1,40 +1,48 @@
 OBJS = ram.o cpu.o hexcode_parser.o reploop.o main.o
+OBJSFROMDIR = $(OBJTARGETDIR)ram.o $(OBJTARGETDIR)cpu.o $(OBJTARGETDIR)hexcode_parser.o $(OBJTARGETDIR)reploop.o $(OBJTARGETDIR)main.o
+OBJSTODIR = -o $(OBJTARGETDIR)
 CC = g++
 DEBUG = -g -Wno-unused-parameter
 CFLAGS = -Os $(DEBUG) -W -Wall -std=c++11 -c
 LFLAGS = -Wall -Os
-TARGET = -o sim8085
+TARGET = -o ./build/bin/sim8085
+OBJTARGETDIR = ./build/obj/
 BOOKMARKEDFLAGS =  -Wpointer-arith -Wno-unused-parameter -Werror 
 
-default:	build copybin
+default: clean mkbuilddir build
+
+mkbuilddir:
+	mkdir -p build/obj build/bin
 
 clean:
-	rm -f *.o sim8085
+	rm -rf ./build/
 	cd tests && make -f Makefile clean
-	
 
 build: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) $(TARGET)
+	$(CC) $(LFLAGS) $(OBJSFROMDIR) $(TARGET)
 
-copybin: build
-	cp sim8085 ../bin/sim8085
+cleanobj:
+	rm -f build/obj/* && && make -f Makefile cleanobj
 
-cpu.o: cpu.cpp ram.cpp core.h datatypes.h
-	$(CC) $(CFLAGS) cpu.cpp
+exec:
+	./build/bin/sim8085
 
-ram.o: ram.cpp core.h datatypes.h
-	$(CC) $(CFLAGS) ram.cpp
+cpu.o: src/devices/cpu.cpp src/devices/ram.cpp src/libs/core.h src/libs/datatypes.h
+	$(CC) $(CFLAGS) src/devices/cpu.cpp $(OBJSTODIR)cpu.o
 
-reploop.o: reploop.cpp cpu.cpp ram.cpp core.h datatypes.h
-	$(CC) $(CFLAGS) reploop.cpp
+ram.o: src/devices/ram.cpp src/libs/core.h src/libs/datatypes.h
+	$(CC) $(CFLAGS) src/devices/ram.cpp $(OBJSTODIR)ram.o
 
-hexcode_parser.o: hexcode_parser.cpp cpu.cpp ram.cpp core.h datatypes.h
-	$(CC) $(CFLAGS) hexcode_parser.cpp
+reploop.o: src/reploop.cpp src/devices/cpu.cpp src/devices/ram.cpp src/libs/core.h src/libs/datatypes.h
+	$(CC) $(CFLAGS) src/reploop.cpp $(OBJSTODIR)reploop.o
 
-main.o: *.cpp *.h
-	$(CC) $(CFLAGS) main.cpp
+hexcode_parser.o: src/hexcode_parser.cpp src/devices/cpu.cpp src/devices/ram.cpp src/libs/core.h src/libs/datatypes.h
+	$(CC) $(CFLAGS) src/hexcode_parser.cpp $(OBJSTODIR)hexcode_parser.o
+
+main.o: src/*.cpp src/devices/*.cpp src/libs/*.h
+	$(CC) $(CFLAGS) src/main.cpp $(OBJSTODIR)main.o
 
 test: 
 	cd tests && make -f Makefile
 	cd tests && echo "Running tests"
-	cd tests && ./test
+	cd tests && ./build/bin/test

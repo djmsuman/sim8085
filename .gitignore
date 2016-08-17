@@ -1,10 +1,17 @@
-# edited by Debajyoti Bhaumik
+# Created by earthdan
+# Edited by djmsuman
 
+# Object Files
 *.o
 
-# app binaries
-sim8085
-tests/test
+# Application Build and Debug Directories
+build/
 
-# dev-tool related swap's
+# Dev-Tool related Swap's
 *.sublime-workspace
+
+# IDE or Code Editor Files
+*.sublime-project
+.vscode
+.idea
+.nbproject

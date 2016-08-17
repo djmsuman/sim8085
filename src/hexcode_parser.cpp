@@ -1,10 +1,9 @@
-#include "engine.h"
-
+#include "./libs/engine.h"
 
 /*
 * @return total nibble
 */
-int hexcode_parse(CPU& cpu, std::istream& hexcode_stream)
+int hexcode_parse(CPU &cpu, std::istream &hexcode_stream)
 {
     using namespace std;
     int nibble_count = 0;
@@ -12,9 +11,9 @@ int hexcode_parse(CPU& cpu, std::istream& hexcode_stream)
     unsigned int opcode;
     Byte2 b2;
     char ch;
-    while(hexcode_stream >> ch)
+    while (hexcode_stream >> ch)
     {
-        if(ch == '@')
+        if (ch == '@')
         {
             hexcode_stream >> hex >> byte1;
             hexcode_stream >> hex >> byte2;

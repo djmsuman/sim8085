@@ -1,6 +1,6 @@
-#include "core.h"
+#include "../libs/core.h"
 #include <iostream>
-#include "opcodes.h"
+#include "../libs/opcodes.h"
 #include <iomanip>
 #include <bitset>
 
@@ -13,7 +13,6 @@ CPU::CPU()
       SP(0), PC(0),
       S(0), Z(0), AC(0), P(0), CY(0)
 {
-
 }
 
 CPU::~CPU()
@@ -25,7 +24,7 @@ void CPU::gotoFirstInst()
     PC = memory.loadedAddress.front();
 }
 
-void CPU::manip_sign(Byte& reg)
+void CPU::manip_sign(Byte &reg)
 {
     if (reg & 0x80)
         S = set;
@@ -33,7 +32,7 @@ void CPU::manip_sign(Byte& reg)
         S = reset;
 }
 
-void CPU::manip_zero(Byte& reg)
+void CPU::manip_zero(Byte &reg)
 {
     if (reg == 0x00)
         Z = set;
@@ -41,7 +40,7 @@ void CPU::manip_zero(Byte& reg)
         Z = reset;
 }
 
-void CPU::manip_parity(Byte& reg)
+void CPU::manip_parity(Byte &reg)
 {
     using namespace std;
     bitset<8> abits(reg);
@@ -367,17 +366,17 @@ bool CPU::step()
         AC = set;
         break;
     case CALL:
-        ob1 = memory.memory[++PC]; //lsb
-        obd1 = memory.memory[++PC] ; //msb
+        ob1 = memory.memory[++PC];  //lsb
+        obd1 = memory.memory[++PC]; //msb
         obd1 = (obd1 << 8) | ob1;
         if (SP == 0x0)
             SP = 0XFFFF;
         else
             SP = SP - 1;
-        ob1 = (PC + 1) & 0xFF; //lsb
-        ob2 = (PC + 1) >> 8; //msb
+        ob1 = (PC + 1) & 0xFF;     //lsb
+        ob2 = (PC + 1) >> 8;       //msb
         memory.memory[SP--] = ob2; //msb
-        memory.memory[SP] = ob1; //lsb
+        memory.memory[SP] = ob1;   //lsb
         PC = obd1;
         cout << "CALL " << hex << (uint)PC << endl;
         return true;
@@ -391,7 +390,7 @@ bool CPU::step()
         /* No flags are modified except Carry, which is complemented. */
         break;
     case CMP_A:
-        if ( A < A)
+        if (A < A)
         {
             CY = set;
             Z = reset;
@@ -405,7 +404,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_B:
-        if ( A < B)
+        if (A < B)
         {
             CY = set;
             Z = reset;
@@ -419,7 +418,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_C:
-        if ( A < C)
+        if (A < C)
         {
             CY = set;
             Z = reset;
@@ -433,7 +432,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_D:
-        if ( A < D)
+        if (A < D)
         {
             CY = set;
             Z = reset;
@@ -447,7 +446,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_E:
-        if ( A < E)
+        if (A < E)
         {
             CY = set;
             Z = reset;
@@ -461,7 +460,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_H:
-        if ( A < H)
+        if (A < H)
         {
             CY = set;
             Z = reset;
@@ -475,7 +474,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_L:
-        if ( A < L)
+        if (A < L)
         {
             CY = set;
             Z = reset;
@@ -489,7 +488,7 @@ bool CPU::step()
             CY = Z = reset;
         break;
     case CMP_M:
-        if ( A < memory.memory[HL.regPair])
+        if (A < memory.memory[HL.regPair])
         {
             CY = set;
             Z = reset;
@@ -505,17 +504,17 @@ bool CPU::step()
     case CC:
         if (CY == set)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -525,17 +524,17 @@ bool CPU::step()
     case CM:
         if (S == set)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -549,17 +548,17 @@ bool CPU::step()
     case CNC:
         if (CY == reset)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -573,17 +572,17 @@ bool CPU::step()
     case CNZ:
         if (Z == reset)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -597,17 +596,17 @@ bool CPU::step()
     case CP:
         if (S == reset)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -621,17 +620,17 @@ bool CPU::step()
     case CPE:
         if (P == set)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -645,17 +644,17 @@ bool CPU::step()
     case CPO:
         if (P == reset)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -669,17 +668,17 @@ bool CPU::step()
     case CZ:
         if (Z == set)
         {
-            ob1 = memory.memory[++PC]; //lsb
-            obd1 = memory.memory[++PC] ; //msb
+            ob1 = memory.memory[++PC];  //lsb
+            obd1 = memory.memory[++PC]; //msb
             obd1 = (obd1 << 8) | ob1;
             if (SP == 0x0)
                 SP = 0XFFFF;
             else
                 SP = SP - 1;
-            ob1 = (PC + 1) & 0xFF; //lsb
-            ob2 = (PC + 1) >> 8; //msb
+            ob1 = (PC + 1) & 0xFF;     //lsb
+            ob2 = (PC + 1) >> 8;       //msb
             memory.memory[SP--] = ob2; //msb
-            memory.memory[SP] = ob1; //lsb
+            memory.memory[SP] = ob1;   //lsb
             PC = obd1;
             return true;
         }
@@ -692,7 +691,7 @@ bool CPU::step()
         break;
     case CPI:
         ob1 = memory.memory[++PC];
-        if ( A < ob1)
+        if (A < ob1)
         {
             CY = set;
             Z = reset;
@@ -1054,7 +1053,7 @@ bool CPU::step()
         }
         break;
     case LDA:
-        ob1 = memory.memory[++PC]; //lsb
+        ob1 = memory.memory[++PC];  //lsb
         obd1 = memory.memory[++PC]; //msb
         obd1 = (obd1 << 8) | ob1;
         A = memory.memory[obd1];
@@ -1068,11 +1067,11 @@ bool CPU::step()
         /* No flags are modified. */
         break;
     case LHLD:
-        ob1 = memory.memory[++PC]; //lsb
+        ob1 = memory.memory[++PC];  //lsb
         obd1 = memory.memory[++PC]; //msb
         obd1 = (obd1 << 8) | ob1;
         L = memory.memory[obd1++];
-        H = memory.memory[obd1];/* No flags are modified. */
+        H = memory.memory[obd1]; /* No flags are modified. */
         break;
     case LXI_B:
         this->C = memory.memory[++PC];
@@ -1757,7 +1756,7 @@ bool CPU::step()
         manip_parity(A);
         break;
     case SHLD:
-        ob1 = memory.memory[++PC]; //lsb
+        ob1 = memory.memory[++PC];  //lsb
         obd1 = memory.memory[++PC]; //msb
         obd1 = (obd1 << 8) | ob1;
         memory.memory[obd1++] = L;
@@ -1768,7 +1767,7 @@ bool CPU::step()
         /* No flags are modified. */
         break;
     case STA:
-        ob1 = memory.memory[++PC]; //lsb
+        ob1 = memory.memory[++PC];  //lsb
         obd1 = memory.memory[++PC]; //msb
         obd1 = (obd1 << 8) | ob1;
         memory.memory[obd1] = A;
@@ -1978,66 +1977,65 @@ bool CPU::step()
         AC = set;
         break;
     case XTHL:
-        ob1 = memory.memory[SP--];  //msb
-        ob2 = memory.memory[SP];    //lsb
-        memory.memory[SP++] = L;    //lsb
-        memory.memory[SP] = H;      //msb
-        L = ob2; //lsb
-        H = ob1; //msb
+        ob1 = memory.memory[SP--]; //msb
+        ob2 = memory.memory[SP];   //lsb
+        memory.memory[SP++] = L;   //lsb
+        memory.memory[SP] = H;     //msb
+        L = ob2;                   //lsb
+        H = ob1;                   //msb
         /* No flags are modified. */
         break;
     case EI:
-        cout <<"EI instruction is not implemented.\n";
+        cout << "EI instruction is not implemented.\n";
         break;
     case DI:
-        cout <<"DI instruction is not implemented.\n";
+        cout << "DI instruction is not implemented.\n";
         break;
     case IN:
-        cout <<"IN instruction is not implemented.\n";
+        cout << "IN instruction is not implemented.\n";
         break;
     case OUT:
-        cout<<"OUT instruction is not implemented.\n";
+        cout << "OUT instruction is not implemented.\n";
         break;
     case RIM:
-        cout<<"RIM instruction is not implemented.\n";
+        cout << "RIM instruction is not implemented.\n";
         break;
     case SIM:
-        cout<<"SIM instruction is not implemented.\n";
+        cout << "SIM instruction is not implemented.\n";
         break;
     case RST_0:
-        cout<<"RST_0 instruction is not implemented.\n";
+        cout << "RST_0 instruction is not implemented.\n";
         break;
     case RST_1:
-        cout<<"RST_1 instruction is not implemented.\n";
+        cout << "RST_1 instruction is not implemented.\n";
         break;
     case RST_2:
-        cout<<"RST_2 instruction is not implemented.\n";
+        cout << "RST_2 instruction is not implemented.\n";
         break;
     case RST_3:
-        cout<<"RST_3 instruction is not implemented.\n";
+        cout << "RST_3 instruction is not implemented.\n";
         break;
     case RST_4:
-        cout<<"RST_4 instruction is not implemented.\n";
+        cout << "RST_4 instruction is not implemented.\n";
         break;
     case RST_5:
-        cout<<"RST_5 instruction is not implemented.\n";
+        cout << "RST_5 instruction is not implemented.\n";
         break;
     case RST_6:
-        cout<<"RST_6 instruction is not implemented.\n";
+        cout << "RST_6 instruction is not implemented.\n";
         break;
     case RST_7:
-        cout<<"RST_7 instruction is not implemented.\n";
+        cout << "RST_7 instruction is not implemented.\n";
         break;
     default:
         cout << "INVALID OPCODE : " << hex << (uint)memory.memory[PC]
              << " at: " << setfill('0') << setw(4) << hex
              << static_cast<uint>(PC) << endl;
-    }//switch
+    } //switch
     if (PC == 0XFFFF)
         return false;
     ++PC;
     return true;
-}//step()
-
+} //step()
 
 //A = (( ((ob1 & 0xF0) >> 4) + ((A & 0xF0) >> 4) + AC) << 4) | ((ob1 & 0x0F) + (A & 0x0F));
