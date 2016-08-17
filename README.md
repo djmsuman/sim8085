@@ -10,7 +10,7 @@ _This simulator is basically made to be able to play with 8085 asm language._
 ### Set up & running
 
 Clone the repository.
-`$ git clone https://github.com/earthdan/sim8085.git`
+`$ git clone https://github.com/djmsuman/sim8085.git`
 then
 `$ cd sim8085`
 
