@@ -3,9 +3,9 @@ Text based Intel 8085 simulator in C++.
 
 **Simulates instructions by changing memory, registers and flags accordingly.**
 
-_This simulator is basically made to be able to play with 8085 asm language._
+- _This simulator is basically made to be able to play with 8085 asm language._
 
-*This project is currently under heavy development.*
+- *This project is currently under heavy development.*
 
 ### Set up & running
 
