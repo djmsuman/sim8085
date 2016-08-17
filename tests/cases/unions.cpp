@@ -1,5 +1,5 @@
-#include "../core.h"
-#include "catch.hpp"
+#include "../../src/libs/core.h"
+#include "../libs/catch.hpp"
 
 TEST_CASE("RegPair union alignment","[unions]"){
 	RegPair r;

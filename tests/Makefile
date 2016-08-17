@@ -2,20 +2,31 @@ CC = g++
 DEBUG = -g
 CFLAGS = -W -Wall -Wpointer-arith -Wno-unused-parameter -Werror -std=c++11 -c
 LFLAGS = -Wall
-TARGET = -o test
+TARGET = -o ./build/bin/test
+OBJTARGETDIR = ./build/obj/
+OBJSTODIR = -o $(OBJTARGETDIR)
+OBJSFROMDIR = $(OBJTARGETDIR)unions.o $(OBJTARGETDIR)dssize.o $(OBJTARGETDIR)test.o
 OBJS = unions.o dssize.o test.o
 
-default:	$(OBJS)
-	$(CC) $(OBJS) $(TARGET)
+deafult: mkbuilddir testbuild
 
-clean:
-	rm -f *.o test
+testbuild: $(OBJS)
+	$(CC) $(OBJSFROMDIR) $(TARGET)
 
-unions.o:	unions.cpp ../core.h
-	$(CC) $(CFLAGS) unions.cpp
+mkbuilddir:
+	mkdir -p build/obj build/bin
 
-dssize.o:	dssize.cpp ../*.h
-	$(CC) $(CFLAGS) dssize.cpp
+cleanobj:
+	rm -f build/obj/*
+
+unions.o: ./cases/unions.cpp ../src/libs/core.h
+	$(CC) $(CFLAGS) ./cases/unions.cpp $(OBJSTODIR)unions.o
+
+dssize.o: ./cases/dssize.cpp ../src/libs/*.h
+	$(CC) $(CFLAGS) ./cases/dssize.cpp $(OBJSTODIR)dssize.o
 
 test.o:	test.cpp
-	$(CC) $(CFLAGS) test.cpp
+	$(CC) $(CFLAGS) test.cpp $(OBJSTODIR)test.o
+
+clean:
+	rm -rf ./build

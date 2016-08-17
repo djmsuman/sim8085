@@ -1,0 +1,17 @@
+# Operating system selection
+dist: trusty
+group: stable
+os: linux
+
+# Super user priviledge
+sudo: false
+
+# Enable C++ support
+language: cpp
+
+# Compiler selection
+compiler: g++
+
+# Build steps
+script:
+  - make
