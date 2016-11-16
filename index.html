@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Sim8085 by djmsuman</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Sim8085</h1>
+        <h2>A console based Intel 8085 Simulator</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/djmsuman/sim8085/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/djmsuman/sim8085/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/djmsuman/sim8085" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="sim8085" class="anchor" href="#sim8085" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>sim8085</h1>
+
+<p>Text based Intel 8085 simulator in C++.</p>
+
+<p><strong>Simulates instructions by changing memory, registers and flags accordingly.</strong></p>
+
+<ul>
+<li><p><em>This simulator is basically made to be able to play with 8085 asm language.</em></p></li>
+<li><p><em>This project is currently under heavy development.</em></p></li>
+</ul>
+
+<h3>
+<a id="set-up--running" class="anchor" href="#set-up--running" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set up &amp; running</h3>
+
+<p>Clone the repository.
+<code>$ git clone https://github.com/djmsuman/sim8085.git</code>
+then
+<code>$ cd sim8085</code></p>
+
+<p>Build it.
+<code>$ make</code>
+Run
+<code>$ ./sim8085</code></p>
+
+<p>Build &amp; run tests
+<code>$ make test</code></p>
+
+<h2>
+<a id="limitations" class="anchor" href="#limitations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Limitations</h2>
+
+<ul>
+<li>Only parse hex opcodes. (Will get a minimum assembler soon)</li>
+<li>Since you need to manually enter the opcodes in bytes there is no support for label. Currently you need to manually assign address and set <code>JMP</code> instruction accordingly.</li>
+<li>Does not provide any idea of execution time if the same program were running in a real Intel 8085.</li>
+</ul>
+      </section>
+    </div>
+
+    
+  </body>
+</html>

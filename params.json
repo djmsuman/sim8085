@@ -1,0 +1,6 @@
+{
+  "name": "Sim8085",
+  "tagline": "A console based Intel 8085 Simulator",
+  "body": "# sim8085\r\nText based Intel 8085 simulator in C++.\r\n\r\n**Simulates instructions by changing memory, registers and flags accordingly.**\r\n\r\n- _This simulator is basically made to be able to play with 8085 asm language._\r\n\r\n- *This project is currently under heavy development.*\r\n\r\n### Set up & running\r\n\r\nClone the repository.\r\n`$ git clone https://github.com/djmsuman/sim8085.git`\r\nthen\r\n`$ cd sim8085`\r\n\r\nBuild it.\r\n`$ make`\r\nRun\r\n`$ ./sim8085`\r\n\r\nBuild & run tests\r\n`$ make test`\r\n\r\n## Limitations\r\n\r\n+ Only parse hex opcodes. (Will get a minimum assembler soon)\r\n+ Since you need to manually enter the opcodes in bytes there is no support for label. Currently you need to manually assign address and set `JMP` instruction accordingly.\r\n+ Does not provide any idea of execution time if the same program were running in a real Intel 8085.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
