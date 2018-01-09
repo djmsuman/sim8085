@@ -16,7 +16,7 @@ Text based Intel 8085 simulator in C++.
 
 2. Go to project root
 
-    `$ cd sim8085`
+  `$ cd sim8085`
 
 3. Build the project
 
